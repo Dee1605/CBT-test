@@ -13,14 +13,14 @@
         <div class="quiz-box">
             <div class="quiz-header">
                 <h1>CBT</h1>
-                <p>Timer :  <span style="font-size: 22px;"> 0 0 : 0 0 </span></p>
+                <p id="demo">Timer :  <span style="font-size: 22px;"> 0 0 : 0 0 </span></p>
             </div>
-            <div class="question">
-                <h2>Q1: </h2>
-                <p>What is the name of the tallest mountain in africa</p>
+            <div class="question" id="quiz">
+                <!-- <h2>Q1: </h2>
+                <p>What is the name of the tallest mountain in africa</p> -->
             </div>
             <div class="options">
-                <div class="option">
+                <!-- <div class="option">
                     <input type="checkbox" style="width: 20px; height: 20px;" />
                     <p> <span>A.</span> Mount Everest</p>
                 </div>
@@ -35,12 +35,12 @@
                 <div class="option">
                     <input type="checkbox" style="width: 20px; height: 20px;" />
                     <p> <span>D.</span> Olumo Rock</p>
-                </div>
+                </div> -->
             </div>
             <div class="buttons">
-                <button class="btn blue">Prev</button>
-                <button class="btn blue" >Next</button>
-
+                <button class="btn blue" onclick="prev()">Prev</button>
+                <button class="btn blue" id="id" onclick="next()" >Next</button>
+                
             </div>
             <div class="question-no">
                 <button class="num-btn num-btn-active ">1</button>
@@ -52,8 +52,194 @@
                 <button class="num-btn">7</button>
                 <button class="num-btn">8</button>
                 <button class="num-btn">9</button>
+                <button class="btn blue blu" id="ids" onclick="submit()" >submit</button>
             </div>
         </div> 
     </div>
 </body>
+<script>
+
+
+function countdown(){
+let timer_hr = 3
+let timer_min = 60
+let demo = document.getElementById('demo')
+
+setInterval(() => {
+    if(timer_min >0 ){
+        timer_min--;
+    }else if(timer_min ==0 && timer_hr>0 ){
+        timer_hr-=1
+        timer_min=59
+    }
+    timerAll(timer_min, timer_hr)
+
+}, 1000);
+
+function timerAll(){
+    demo.innerHTML = `${timer_hr} : ${timer_min}`
+}
+}
+
+
+
+
+      var questions = [
+            {
+                number: "1",
+                question: " Q1. Which of these is the tallest mountain in the world?",
+                options: ["Kilimanjaro", "Everest", "Zuma", "Olumo rock"],
+                correctAnswers: "Everest",
+                chosenAnswer: ""
+            },
+            {
+                number: "2",
+                question: " Q2. Who was the first man on the moon?",
+                options: [" Mohmmadu Buhari", "Buzz Aldrin", "Yuri Gagarin", "Neil Armstrong"],
+                correctAnswers: "Neil Armstong",
+                chosenAnswer: ""
+            },
+            {
+                number: "3",
+                question: "Q3. Who invented the light bulb?",
+                options: ["Micheal Faraday", "J.Robert Oppenheimer", "Thomas Edison", "Wright brothers"],
+                correctAnswers: "Thomas Edison",
+                chosenAnswer: ""
+            },
+            {
+                number: "4",
+                question: "Q4. When year was Nnamdi Azikiwe born?",
+                options: ["1904", "1800", "1580", "1589"],
+                correctAnswers: "1904",
+                chosenAnswer: ""
+            },
+            {
+                number: "5",
+                question: "Q5. Who was the first president of America?",
+                options: ["Barak Obama", "Donald Trump", "George Washington", "John Adams"],
+                correctAnswers: "George Washington",
+                chosenAnswer: ""
+            },
+            {
+                number: "6",
+                question: "Q6. In what year wa the aeroplane invented?",
+                options: ["1903", "2000", "1920", "1900"],
+                correctAnswers: "1903",
+                chosenAnswer: ""
+            },
+            {
+                number: "7",
+                question: "Q7. Who brought the tricycle known as keke napep to NIgeria?",
+                options: [" President Muhammadu Buhari", "Mohammed Buba Marwa", "General Yakubu Gowon", "General Sani Abacha" ],
+                correctAnswers: "Mohammed Buba Marwa",
+                chosenAnswer: ""
+            },
+            {
+                number: "8",
+                question: "Q8. What year was Nigeria amalgamated?",
+                options: ["1905", "1960", "1964", "1914"],
+                correctAnswers: "1914",
+                chosenAnswer: ""
+            },
+            {
+                number: "9",
+                question: "Q9. How many gold stars are there in the European Union flag?",
+                options: ["13", "11", "12", "10"],
+                correctAnswers: "12",
+                chosenAnswer: ""
+            },
+            {
+                number: "10",
+                question: "Q10. Who invented the first Nigerian car?",
+                options: ["Hanson Gregory", "Oluwatumininu Moses", "Esie Iduma", "Eekiel Izuogu"],
+                correctAnswers: "Eekiel Izuogu",
+                chosenAnswer: ""
+            }
+
+        ];
+
+        let a = 0;
+        let score = 0;
+        let sel_ans = []
+        let points = 0;
+
+        display()
+
+        function display() {
+            document.getElementById("quiz").innerHTML +=  ` <p>${questions[a].question}</p>`
+            for (let index = 0; index < (questions[a].options).length; index++) {
+                let element = (questions[a].options)[index];
+                document.getElementById("quiz").innerHTML += `
+       
+            <div>
+            <input type="radio" id="${element}"  title="${element}.id" name="select" onclick="logic(event)" >
+            <label for="one"> ${element}
+                <br>
+                </div>
+                `
+                console.log(element);
+                
+            }
+           
+        }
+       
+        function submit(){
+            //the loop runs accordiing to the number of questions (also the number of the sel_ans array)
+            for (let i = 0; i < questions.length; i++) {
+
+                //checks if the answer provided in the questions array is equall to the sel_ans based on  same index
+                if(questions[i].answer == sel_ans[i]){
+                    points = points + 5; //if answer is correct add 5 point to points variable
+                }
+            }
+            console.log(points) //display point (create an element and display this on your html)
+        }
+        
+        function next() {
+
+            // if(a == 9){
+            // //   document.getElementById("id").innerHTML = "Submit";
+            //   document.getElementById("quiz").innerHTML = `
+            //   <p> Your score is: ${score}</p>
+            //   `
+
+            //     return
+            //     // a = -1;
+            // }
+            if(a == 9){
+                a = -1
+            }
+            a++
+            document.getElementById("quiz").innerHTML = " "
+            display()
+
+           
+        }
+     
+
+        function prev() {
+            if(a == 0){
+                a = +10
+            }
+            a--
+            document.getElementById("quiz").innerHTML = ""
+            display()
+            
+        }
+
+        function logic(params) {
+             if(params.target.id !== questions[a].correctAnswers){
+            // alert("you are wrong")
+            return score
+        }
+            score++
+            console.log(score)
+            return
+
+        
+        }
+        countdown()
+        timerAll()
+
+</script>
 </html>
